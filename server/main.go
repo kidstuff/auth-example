@@ -39,5 +39,36 @@ func main() {
 	r := mux.NewRouter()
 	auth.Serve(r.PathPrefix("/auth").Subrouter())
 
-	http.ListenAndServe(SERVER_URL, r)
+	http.ListenAndServe(SERVER_URL, &AuthServer{r})
+}
+
+type AuthServer struct {
+	r *mux.Router
+}
+
+func (s *AuthServer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+	if origin := req.Header.Get("Origin"); validOrigin(origin) {
+		rw.Header().Set("Access-Control-Allow-Origin", origin)
+		rw.Header().Set("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, DELETE")
+		rw.Header().Set("Access-Control-Allow-Headers",
+			"Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	}
+	if req.Method == "OPTIONS" {
+		return
+	}
+	s.r.ServeHTTP(rw, req)
+}
+
+func validOrigin(origin string) bool {
+	allowOrigin := []string{
+		"http://localhost:8081",
+	}
+
+	for _, v := range allowOrigin {
+		if origin == v {
+			return true
+		}
+	}
+
+	return false
 }

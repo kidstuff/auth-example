@@ -1,0 +1,11 @@
+CACHE MANIFEST
+
+//ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.js
+//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.js
+//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js
+//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js
+//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css
+//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css
+
+NETWORK:
+*

@@ -4,6 +4,7 @@
 *.so
 server/server
 server/setup/setup
+client/compiler.jar
 
 # Folders
 _obj
