@@ -57,29 +57,15 @@ func main() {
 	}
 
 	groupMngr := mgoauth.NewMgoGroupManager(db)
-	groupName := "admin"
-	g, err := groupMngr.FindByName(groupName)
+	g, err := groupMngr.AddDetail("admin", []string{"manage_user"}, nil)
 	if err != nil {
-		g = &model.Group{}
-		g.Name = &groupName
-		g.Privilege = []string{"manage_user"}
-		g, err = groupMngr.AddDetail(g)
-		if err != nil {
-			log.Println(err)
-		}
+		log.Println(err)
 	}
 
 	userMngr := mgoauth.NewMgoUserManager(db, groupMngr)
-	email := "nvcnvn1@gmail.com"
-	_, err = userMngr.FindByEmail(email)
+	_, err = userMngr.AddDetail("nvcnvn1@gmail.com", "zaq123edc", true, []string{"manage_user"}, nil,
+		nil, []model.Group{*g})
 	if err != nil {
-		g2 := model.Group{}
-		g2.Id = g.Id
-		g2.Name = g.Name
-		_, err = userMngr.AddDetail(email, "zaq123edc", true, g.Privilege, nil,
-			nil, []model.Group{g2})
-		if err != nil {
-			log.Println(err)
-		}
+		log.Println(err)
 	}
 }

@@ -1,7 +1,6 @@
 <table class="table">
 	<tr>
 		<td></td>
-		<td>Id</td>
 		<td>Email</td>
 	</tr>
 	<tr ng-repeat="(idx, u) in users">
@@ -9,10 +8,7 @@
 			{{idx+1}}
 		</td>
 		<td>
-			{{u.Id}}
-		</td>
-		<td>
-			{{u.Email}}
+			<a href="{{u.Id}}">{{u.Email}}</a>
 		</td>
 	</tr>
 </table>
