@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sync"
 )
 
 func main() {
@@ -29,6 +30,8 @@ func main() {
 	jsDir := filepath.Join(*dir, "src")
 	_, err = os.Stat(jsDir)
 	jsDirMissing := os.IsNotExist(err)
+
+	lock := sync.Mutex{}
 
 	if compilerMissing {
 		log.Println("Not found 'compiler.jar', please download it here: http://dl.google.com/closure-compiler/compiler-latest.zip")
@@ -51,12 +54,14 @@ func main() {
 							break
 						}
 
+						lock.Lock()
 						log.Println("Compiling script...")
 						err := compileScript(compiler, jsDir)
 						if err != nil {
 							log.Println("Error compiling script:", err)
 						}
 						log.Println("Done!")
+						lock.Unlock()
 					}
 				case err := <-watcher.Errors:
 					log.Println("watcher error:", err)
@@ -79,12 +84,14 @@ func main() {
 		}
 	}
 
+	lock.Lock()
 	err = compileScript(compiler, jsDir)
 	if err != nil {
 		log.Println("Error compiling script:", err)
 	} else {
 		log.Println("Compiling script at", jsDir)
 	}
+	lock.Unlock()
 
 	log.Println("Serving client at http://localhost" + *port)
 	panic(http.ListenAndServe(*port, http.FileServer(http.Dir(*dir))))
