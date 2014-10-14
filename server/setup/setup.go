@@ -71,19 +71,13 @@ func main() {
 
 	userMngr := mgoauth.NewMgoUserManager(db, groupMngr)
 	email := "nvcnvn1@gmail.com"
-	u, err := userMngr.FindByEmail(email)
+	_, err = userMngr.FindByEmail(email)
 	if err != nil {
-		u = &model.User{}
-		u.Email = &email
-		u.ChangePassword("zaq123edc")
 		g2 := model.Group{}
 		g2.Id = g.Id
 		g2.Name = g.Name
-		u.Groups = []model.Group{g2}
-		t := true
-		u.Approved = &t
-		u.Privilege = g.Privilege
-		u, err = userMngr.AddDetail(u)
+		_, err = userMngr.AddDetail(email, "zaq123edc", true, g.Privilege, nil,
+			nil, []model.Group{g2})
 		if err != nil {
 			log.Println(err)
 		}
