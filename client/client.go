@@ -21,6 +21,7 @@ func main() {
 
 	port := flag.String("http", ":8081", "the listening port")
 	dir := flag.String("dir", d, "the working folder")
+	debug := flag.Bool("debug", false, "enable/disable debuging mode")
 	flag.Parse()
 
 	compiler := filepath.Join(*dir, "compiler.jar")
@@ -56,7 +57,7 @@ func main() {
 
 						lock.Lock()
 						log.Println("Compiling script...")
-						err := compileScript(compiler, jsDir)
+						err := compileScript(compiler, jsDir, *debug)
 						if err != nil {
 							log.Println("Error compiling script:", err)
 						}
@@ -85,7 +86,7 @@ func main() {
 	}
 
 	lock.Lock()
-	err = compileScript(compiler, jsDir)
+	err = compileScript(compiler, jsDir, *debug)
 	if err != nil {
 		log.Println("Error compiling script:", err)
 	} else {
@@ -97,8 +98,11 @@ func main() {
 	panic(http.ListenAndServe(*port, http.FileServer(http.Dir(*dir))))
 }
 
-func compileScript(compiler, jsDir string) error {
+func compileScript(compiler, jsDir string, debug bool) error {
 	args := []string{"-jar", compiler, "--language_in", "ECMASCRIPT5"}
+	if debug {
+		args = []string{"-jar", compiler, "--language_in", "ECMASCRIPT5", "--formatting", "PRETTY_PRINT", "--compilation_level", "SIMPLE"}
+	}
 	err := filepath.Walk(filepath.Join(jsDir, "app"), func(path string, info os.FileInfo, err error) error {
 		if filepath.Ext(path) == ".js" {
 			args = append(args, "--js", path)
