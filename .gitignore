@@ -5,6 +5,7 @@
 server/server
 server/setup/setup
 client/compiler.jar
+client/js/app.min.js
 
 # Folders
 _obj
