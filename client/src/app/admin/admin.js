@@ -18,7 +18,11 @@ function($stateProvider, $urlRouterProvider, growlProvider) {
 		url: '/users',
 		templateUrl: 'partials/admin/users.list.html',
 		controller: 'UserListController'
-	});;
+	}).state('user-detail', {
+		url: '/users/{id}',
+		templateUrl: 'partials/admin/users.detail.html',
+		controller: 'UserDetailController'
+	});
 
 	growlProvider.globalTimeToLive(5000);
 }]);

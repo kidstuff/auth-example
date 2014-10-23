@@ -75,6 +75,54 @@ function ($http, env, localStorageService) {
 		localStorageService.remove('user');
 	}
 
+	auth.getUser = function(id, success, error) {
+		$http.get(env.apiURL()+'/auth/users/'+id, {
+			params:{}
+		}).
+		success(function(data, status, headers, config) {
+			if(typeof success == 'function') {
+				success(data);
+			}
+		}).
+		error(function(data, status, headers, config) {
+			if(typeof error == 'function') {
+				error(data);
+			}
+		});
+	}
+
+	auth.updateUserProfile = function(id, profile, success, error) {
+		if(typeof profile != 'undefined'){
+			$http({method: 'PATCH', url: env.apiURL()+'/auth/users/'+id+'/profile', data: profile}).
+			success(function(data, status, headers, config) {
+				if(typeof success == 'function') {
+					success();
+				}
+			}).
+			error(function(data, status, headers, config) {
+				if(typeof error == 'function') {
+					error(data);
+				}
+			});
+		}
+	}
+
+	auth.listUser = function(params, success, error) {
+		$http.get(env.apiURL()+'/auth/users', {
+			params:params
+		}).
+		success(function(data, status, headers, config) {
+			if(typeof success == 'function') {
+				success(data.Users);
+			}
+		}).
+		error(function(data, status, headers, config) {
+			if(typeof error == 'function') {
+				error(data);
+			}
+		});
+	}
+
 	return auth;
 }]);
 
