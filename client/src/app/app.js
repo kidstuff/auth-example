@@ -107,6 +107,22 @@ function ($http, env, localStorageService) {
 		}
 	}
 
+	auth.updateUserApproval = function(id, approve, success, error) {
+		if(typeof approve == 'boolean'){
+			$http({method: 'PUT', url: env.apiURL()+'/auth/users/'+id+'/approve', data: {Approved: approve}}).
+			success(function(data, status, headers, config) {
+				if(typeof success == 'function') {
+					success();
+				}
+			}).
+			error(function(data, status, headers, config) {
+				if(typeof error == 'function') {
+					error(data);
+				}
+			});
+		}
+	}
+
 	auth.listUser = function(params, success, error) {
 		$http.get(env.apiURL()+'/auth/users', {
 			params:params

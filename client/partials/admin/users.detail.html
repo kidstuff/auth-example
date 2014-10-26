@@ -21,7 +21,7 @@
 		<div class="form-group">
 			<label for="" class="col-sm-2 control-label">Approved</label>
 			<div class="col-sm-10">
-				<input type="checkbox" id="" ng-model="user.Approved">
+				<input type="checkbox" id="" ng-model="user.Approved" ng-change="updateApproval()" ng-disabled="updatingApproval">
 			</div>
 		</div>
 		<div class="form-group">

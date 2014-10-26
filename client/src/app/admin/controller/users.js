@@ -46,4 +46,15 @@ function($scope, $state, auth, env, growl, $stateParams, $http) {
 
 		});
 	}
+
+	$scope.updatingApproval = false;
+	$scope.updateApproval = function() {
+		$scope.updatingApproval = true;
+		console.log('updatingApproval');
+		auth.updateUserApproval($scope.user.Id, $scope.user.Approved, function(){
+			$scope.updatingApproval = false;
+		}, function(err) {
+			$scope.updatingApproval = false;
+		});
+	}
 }]);
