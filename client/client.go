@@ -135,7 +135,7 @@ func compileScript(compiler, jsDir string, debug bool) error {
 		return err
 	}
 
-	f, err := os.OpenFile(filepath.Join(jsDir, "../js/app.min.js"), os.O_WRONLY, 0600)
+	f, err := os.OpenFile(filepath.Join(jsDir, "../js/app.min.js"), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
 		return err
 	}
