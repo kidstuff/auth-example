@@ -139,6 +139,21 @@ function ($http, env, localStorageService) {
 		});
 	}
 
+	auth.listGroup = function(params, success, error) {
+		$http.get(env.apiURL()+'/auth/groups', {
+			params:params
+		}).
+		success(function(data, status, headers, config) {
+			if(typeof success == 'function') {
+				success(data.Groups);
+			}
+		}).
+		error(function(data, status, headers, config) {
+			if(typeof error == 'function') {
+				error(data);
+			}
+		});
+	}
 	return auth;
 }]);
 

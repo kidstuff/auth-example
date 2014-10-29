@@ -1,0 +1,81 @@
+<section>
+	<form class="form-horizontal" role="form" ng-submit="submit()">
+		<!-- Profile area -->
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">FirstName</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="" ng-model="user.Profile.FirstName">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">LastName</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="" ng-model="user.Profile.LastName">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">MiddleName</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="" ng-model="user.Profile.MiddleName">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">NickName</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="" ng-model="user.Profile.NickName">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">BirthDay</label>
+			<div class="col-sm-10">
+	            <p class="input-group">
+					<input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="user.Profile.BirthDay" is-open="opened">
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default" ng-click="openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+	            </p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">JoinDay</label>
+			<div class="col-sm-10">
+				<span>{{user.Profile.JoinDay}}</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">Phones</label>
+			<div class="col-sm-10">
+				<ul class="list-unstyled" ng-repeat="(key, phone) in user.Profile.Phones">
+					<li>
+						<div class="input-group">
+							<input type="text" class="form-control" id="" ng-model="user.Profile.Phones[key]">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" ng-click="removePhone(key)">Remove</button>
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label"></label>
+			<div class="col-sm-10">
+				<ul class="list-unstyled">
+					<li>
+						<div class="input-group">
+							<input type="text" class="form-control" ng-model="newPhone">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" ng-click="addPhone()">Add</button>
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-default">Submit</button>
+			</div>
+		</div>
+	</form>
+</section>

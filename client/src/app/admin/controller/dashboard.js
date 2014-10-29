@@ -7,3 +7,10 @@ function($scope, $state, auth, env, growl) {
 	}
 
 }]);
+
+auth.admin.module.controller('AdminController', ['$scope', '$state', 'auth', 'env', 'growl',
+function($scope, $state, auth, env, growl) {
+	if(!auth.isLoged()) {
+		$state.go('login');
+	}
+}]);

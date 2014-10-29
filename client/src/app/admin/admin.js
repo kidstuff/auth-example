@@ -4,21 +4,24 @@ auth.admin.module = angular.module('auth.admin', ['auth', 'ui.router', 'ui.boots
 
 auth.admin.module.config(['$stateProvider', '$urlRouterProvider', 'growlProvider',
 function($stateProvider, $urlRouterProvider, growlProvider) {
-	$urlRouterProvider.otherwise('dashboard');
 
-	$stateProvider.state('dashboard', {
+	$stateProvider.state('login', { // login doesnot use the shared 'layout.html'
+		url: '/admin/login',
+		templateUrl: 'partials/admin/login.html',
+		controller: 'LoginController'
+	}).state('admin', {
+		url: '/admin',
+		templateUrl: 'partials/admin/layout.html',
+		controller: 'AdminController'
+	}).state('admin.dashboard', {
 		url: '/dashboard',
 		templateUrl: 'partials/admin/dashboard.html',
 		controller: 'DashboardController'
-	}).state('login', {
-		url: '/login',
-		templateUrl: 'partials/admin/login.html',
-		controller: 'LoginController'
-	}).state('user-list', {
+	}).state('admin.user-list', {
 		url: '/users',
 		templateUrl: 'partials/admin/users.list.html',
 		controller: 'UserListController'
-	}).state('user-detail', {
+	}).state('admin.user-detail', {
 		url: '/users/{id}',
 		templateUrl: 'partials/admin/users.detail.html',
 		controller: 'UserDetailController'
