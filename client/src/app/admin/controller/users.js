@@ -42,9 +42,6 @@ function UserBaseController($scope, $state, auth, env, growl, $stateParams, $htt
 	}
 
 	$scope.submit = function() {
-		if(typeof $scope.user.Profile.JoinDay == 'string') {
-			$scope.user.Profile.JoinDay = moment($scope.user.Profile.JoinDay).format();
-		}
 		auth.updateUserProfile($scope.user.Id, $scope.user.Profile, function() {
 		}, function(err) {
 

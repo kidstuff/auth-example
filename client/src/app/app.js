@@ -154,6 +154,20 @@ function ($http, env, localStorageService) {
 			}
 		});
 	}
+
+	auth.createGroup = function(group, success, error) {
+		$http.post(env.apiURL()+'/auth/groups', group).
+		success(function(data, status, headers, config) {
+			if(typeof success == 'function') {
+				success(data);
+			}
+		}).
+		error(function(data, status, headers, config) {
+			if(typeof error == 'function') {
+				error(data);
+			}
+		});
+	}
 	return auth;
 }]);
 

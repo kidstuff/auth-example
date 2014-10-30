@@ -25,6 +25,14 @@ function($stateProvider, $urlRouterProvider, growlProvider) {
 		url: '/users/{id}',
 		templateUrl: 'partials/admin/users.detail.html',
 		controller: 'UserDetailController'
+	}).state('admin.group-list', {
+		url: '/groups',
+		templateUrl: 'partials/admin/groups.list.html',
+		controller: 'GroupListController'
+	}).state('admin.group-create', {
+		url: '/groups/create',
+		templateUrl: 'partials/admin/groups.create.html',
+		controller: 'GroupCreateController'
 	});
 
 	growlProvider.globalTimeToLive(5000);
