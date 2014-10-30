@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/kidstuff/auth-mongo-mngr"
-	"github.com/kidstuff/auth/model"
 	"labix.org/v2/mgo"
 	"log"
 	"os"
@@ -64,7 +63,7 @@ func main() {
 
 	userMngr := mgoauth.NewMgoUserManager(db, groupMngr)
 	_, err = userMngr.AddDetail("nvcnvn1@gmail.com", "zaq123edc", true, []string{"manage_user"}, nil,
-		nil, []model.Group{*g})
+		nil, []string{*g.Id})
 	if err != nil {
 		log.Println(err)
 	}
