@@ -139,6 +139,34 @@ function ($http, env, localStorageService) {
 		});
 	}
 
+	auth.removeUserGroup = function(userId, groupId, success, error) {
+		$http({method: 'DELETE', url: env.apiURL()+'/auth/users/'+userId+'/groups/'+groupId}).
+		success(function(data, status, headers, config) {
+			if(typeof success == 'function') {
+				success();
+			}
+		}).
+		error(function(data, status, headers, config) {
+			if(typeof error == 'function') {
+				error(data);
+			}
+		});
+	}
+
+	auth.addUserGroup = function(userId, groupId, success, error) {
+		$http({method: 'PUT', url: env.apiURL()+'/auth/users/'+userId+'/groups', data:{Id: groupId}}).
+		success(function(data, status, headers, config) {
+			if(typeof success == 'function') {
+				success();
+			}
+		}).
+		error(function(data, status, headers, config) {
+			if(typeof error == 'function') {
+				error(data);
+			}
+		});
+	}
+
 	auth.listGroup = function(params, success, error) {
 		$http.get(env.apiURL()+'/auth/groups', {
 			params:params

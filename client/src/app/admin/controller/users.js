@@ -65,7 +65,11 @@ function($scope, $state, auth, env, growl, $stateParams, $http) {
 	}
 
 	$scope.removeGroup = function(index) {
-		$scope.user.Groups.splice(index, 1);
+		auth.removeUserGroup($scope.user.Id, $scope.user.Groups[index].Id, function(){
+			$scope.user.Groups.splice(index, 1);
+		}, function(err) {
+
+		});
 	}
 
 	$scope.selected = {};
@@ -81,7 +85,11 @@ function($scope, $state, auth, env, growl, $stateParams, $http) {
 			}
 		}
 
-		$scope.user.Groups.push($scope.selected.Group);
+		auth.addUserGroup($scope.user.Id, $scope.selected.Group.Id, function(){
+			$scope.user.Groups.push($scope.selected.Group);
+		}, function(err) {
+			
+		});
 	}
 
 	$scope.groups = [];
