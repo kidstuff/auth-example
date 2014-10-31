@@ -1,0 +1,15 @@
+<table class="table">
+	<tr>
+		<td></td>
+		<td>Name</td>
+	</tr>
+	<tr ng-repeat="(idx, g) in groups">
+		<td>
+			{{idx+1}}
+		</td>
+		<td>
+			<a>{{g.Name}}</a>
+			<!-- <a ui-sref="admin.group-detail({id: g.Id})">{{g.Name}}</a> -->
+		</td>
+	</tr>
+</table>

@@ -43,7 +43,9 @@
 					<ul class="list-unstyled">
 						<li>
 							<div class="input-group">
-								<select ng-model="selectedGroup" ng-options="group.Name for group in groups" class="form-control"></select>
+								<select ng-model="selected.Group" ng-options="group.Name for group in groups" class="form-control">
+									<option value="">--</option>
+								</select>
 								<span class="input-group-btn">
 									<button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>
 								</span>

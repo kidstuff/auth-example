@@ -55,14 +55,13 @@ func main() {
 		log.Println(err)
 	}
 
-	groupMngr := mgoauth.NewMgoGroupManager(db)
-	g, err := groupMngr.AddDetail("admin", []string{"manage_user"}, nil)
+	mngr := mgoauth.NewMgoManager(db)
+	g, err := mngr.AddGroupDetail("admin", []string{"manage_user"}, nil)
 	if err != nil {
 		log.Println(err)
 	}
 
-	userMngr := mgoauth.NewMgoUserManager(db, groupMngr)
-	_, err = userMngr.AddDetail("nvcnvn1@gmail.com", "zaq123edc", true, []string{"manage_user"}, nil,
+	_, err = mngr.AddUserDetail("nvcnvn1@gmail.com", "zaq123edc", true, []string{"manage_user"}, nil,
 		nil, []string{*g.Id})
 	if err != nil {
 		log.Println(err)

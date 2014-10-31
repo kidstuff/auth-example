@@ -68,18 +68,20 @@ function($scope, $state, auth, env, growl, $stateParams, $http) {
 		$scope.user.Groups.splice(index, 1);
 	}
 
+	$scope.selected = {};
 	$scope.addGroup = function() {
-		if(typeof $scope.selectedGroup == 'undefined') {
+		console.log($scope.selected.Group)
+		if(typeof $scope.selected.Group == 'undefined') {
 			return;
 		}
 		
 		for(i=0;i<$scope.user.Groups.length;i++){
-			if($scope.user.Groups[i].Id == $scope.selectedGroup.Id) {
+			if($scope.user.Groups[i].Id == $scope.selected.Group.Id) {
 				return;
 			}
 		}
 
-		$scope.user.Groups.push($scope.selectedGroup);
+		$scope.user.Groups.push($scope.selected.Group);
 	}
 
 	$scope.groups = [];
