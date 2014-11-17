@@ -120,6 +120,7 @@ func compileScript(compiler, jsDir string, debug bool) error {
 	cmd.Stderr = &er
 	err = cmd.Run()
 	if err != nil {
+		log.Println(er.String())
 		return err
 	}
 
