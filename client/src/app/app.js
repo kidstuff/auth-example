@@ -10,7 +10,7 @@ auth.module.factory('env', function() {
 		if (window.location.host.indexOf('localhost') > -1) {
 			return 'http://localhost:8080';
 		} else {
-			return '//api.example.com';
+			return window.location.origin;
 		}
 	}
 
@@ -18,7 +18,7 @@ auth.module.factory('env', function() {
 		if (window.location.host.indexOf('localhost') > -1) {
 			return 'http://localhost:8081';
 		} else {
-			return '//www.example.com';
+			return  window.location.origin;
 		}
 	}
 
