@@ -21,6 +21,10 @@ function($stateProvider, $urlRouterProvider, growlProvider) {
 		url: '/users',
 		templateUrl: 'partials/admin/users.list.html',
 		controller: 'UserListController'
+	}).state('admin.user-create', {
+		url: '/users/create',
+		templateUrl: 'partials/admin/users.create.html',
+		controller: 'UserCreateController'
 	}).state('admin.user-detail', {
 		url: '/users/{id}',
 		templateUrl: 'partials/admin/users.detail.html',

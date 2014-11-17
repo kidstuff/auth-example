@@ -98,10 +98,33 @@ function($scope, $state, auth, env, growl, $stateParams, $http) {
 	}, function(err){
 
 	});
+
+	$scope.delete = function() {
+		auth.removeUser($scope.user.Id, function(){
+			growl.addSuccessMessage('Delete user success!');
+			$state.go('admin.user-list');
+		}, function(){
+
+		})
+	}
 }]);
 
 auth.admin.module.controller('UserProfileController', ['$scope', '$state', 'auth', 'env', 'growl',
 '$stateParams', '$http',
 function($scope, $state, auth, env, growl, $stateParams, $http) {
 	UserBaseController($scope, $state, auth, env, growl, $stateParams, $http);
+}]);
+
+auth.admin.module.controller('UserCreateController', ['$scope', '$state', 'auth', 'env', 'growl', '$http',
+function($scope, $state, auth, env, growl, $http) {
+	$scope.user = {};
+
+	$scope.submit = function() {
+		auth.createUser($scope.user, function(){
+			growl.addSuccessMessage('Create new user success!');
+			$scope.user = {};
+		}, function(){
+
+		});
+	}
 }]);

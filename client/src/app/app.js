@@ -196,6 +196,35 @@ function ($http, env, localStorageService) {
 			}
 		});
 	}
+
+	auth.createUser = function(userInfo, success, error) {
+		$http.post(env.apiURL()+'/auth/users', userInfo).
+		success(function(data, status, headers, config) {
+			if(typeof success == 'function') {
+				success(data);
+			}
+		}).
+		error(function(data, status, headers, config) {
+			if(typeof error == 'function') {
+				error(data);
+			}
+		});
+	}
+
+	auth.removeUser = function(userId, success, error) {
+		$http({method: 'DELETE', url: env.apiURL()+'/auth/users/'+userId}).
+		success(function(data, status, headers, config) {
+			if(typeof success == 'function') {
+				success();
+			}
+		}).
+		error(function(data, status, headers, config) {
+			if(typeof error == 'function') {
+				error(data);
+			}
+		});
+	}
+	
 	return auth;
 }]);
 
