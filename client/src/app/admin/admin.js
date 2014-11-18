@@ -1,9 +1,9 @@
 goog.provide('auth.admin');
 
-auth.admin.module = angular.module('auth.admin', ['auth', 'ui.router', 'ui.bootstrap', 'angular-growl']);
+auth.admin.module = angular.module('auth.admin', ['auth', 'ui.router', 'ui.bootstrap', 'angular-growl', 'kidstuff.auth']);
 
-auth.admin.module.config(['$stateProvider', '$urlRouterProvider', 'growlProvider',
-function($stateProvider, $urlRouterProvider, growlProvider) {
+auth.admin.module.config(['$stateProvider', '$urlRouterProvider', 'growlProvider', 'envProvider', 'authProvider',
+function($stateProvider, $urlRouterProvider, growlProvider, envProvider, authProvider) {
 
 	$stateProvider.state('login', { // login doesnot use the shared 'layout.html'
 		url: '/admin/login',
@@ -40,4 +40,6 @@ function($stateProvider, $urlRouterProvider, growlProvider) {
 	});
 
 	growlProvider.globalTimeToLive(5000);
+
+	authProvider.setEndPoint(envProvider.getAPIURL()+'/auth');
 }]);

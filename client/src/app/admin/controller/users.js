@@ -74,11 +74,12 @@ function($scope, $state, auth, env, growl, $stateParams, $http) {
 
 	$scope.selected = {};
 	$scope.addGroup = function() {
-		console.log($scope.selected.Group)
 		if(typeof $scope.selected.Group == 'undefined') {
 			return;
 		}
 		
+		$scope.user.Groups = $scope.user.Groups || [];
+
 		for(i=0;i<$scope.user.Groups.length;i++){
 			if($scope.user.Groups[i].Id == $scope.selected.Group.Id) {
 				return;
