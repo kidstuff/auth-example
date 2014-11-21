@@ -37,6 +37,10 @@ function($stateProvider, $urlRouterProvider, growlProvider, envProvider, authPro
 		url: '/groups/create',
 		templateUrl: 'partials/admin/groups.create.html',
 		controller: 'GroupCreateController'
+	}).state('admin.group-detail', {
+		url: '/groups/{id}',
+		templateUrl: 'partials/admin/groups.detail.html',
+		controller: 'GroupDetailController'
 	});
 
 	growlProvider.globalTimeToLive(5000);

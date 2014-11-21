@@ -1,0 +1,50 @@
+<form class="form-horizontal" role="form" ng-submit="update()">
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Name</label>
+		<div class="col-sm-10">
+			<span>{{group.Name}}</span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Description</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="" ng-model="group.Info.Description">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Privileges</label>
+		<div class="col-sm-10">
+			<ul class="list-unstyled" ng-repeat="(key, pri) in group.Privileges">
+				<li>
+					<div class="input-group">
+						<input type="text" class="form-control" id="" ng-model="group.Privileges[key]">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" ng-click="removePrivilege(key)">Remove</button>
+						</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label"></label>
+		<div class="col-sm-10">
+			<ul class="list-unstyled">
+				<li>
+					<div class="input-group">
+						<input type="text" class="form-control" ng-model="newPrivilege">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" ng-click="addPrivilege()">Add</button>
+						</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-primary">Update</button>
+			<button type="button" class="btn btn-danger" ng-click="delete()" ng-confirm-click="Are you sure?">Delete</button>
+		</div>
+	</div>
+</form>
