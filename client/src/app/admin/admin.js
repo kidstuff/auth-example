@@ -41,6 +41,14 @@ function($stateProvider, $urlRouterProvider, growlProvider, envProvider, authPro
 		url: '/groups/{id}',
 		templateUrl: 'partials/admin/groups.detail.html',
 		controller: 'GroupDetailController'
+	}).state('admin.setting-main', {
+		url: '/settings/main',
+		templateUrl: 'partials/admin/settings.main.html',
+		controller: 'SettingMainController'
+	}).state('admin.setting-mail', {
+		url: '/settings/mail',
+		templateUrl: 'partials/admin/settings.mail.html',
+		controller: 'SettingMailController'
 	});
 
 	growlProvider.globalTimeToLive(5000);

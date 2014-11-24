@@ -1,0 +1,51 @@
+<form class="form-horizontal" role="form" ng-submit="submit()">
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">System email address</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="" ng-model="settings.auth_email_from">
+		</div>
+	</div>
+	<hr>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Send activate email?</label>
+		<div class="col-sm-10">
+			<input type="checkbox" class="checkbox" ng-model="settings.auth_send_activate_email" ng-true-value="true" ng-false-value="false">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Active email subject</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="" ng-model="settings.auth_activate_email_subject">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Active email message</label>
+		<div class="col-sm-10">
+			<textarea class="form-control" id="" ng-model="settings.auth_activate_email_message"></textarea>
+		</div>
+	</div>
+	<hr>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Send welcome email?</label>
+		<div class="col-sm-10">
+			<input type="checkbox" class="checkbox" ng-model="settings.auth_send_welcome_email" ng-true-value="true" ng-false-value="false">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Welcome email subject</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="" ng-model="settings.auth_welcome_email_subject">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Welcome email message</label>
+		<div class="col-sm-10">
+			<textarea type="text" class="form-control" id="" ng-model="settings.auth_welcome_email_message"></textarea>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-primary">Update</button>
+		</div>
+	</div>
+</form>

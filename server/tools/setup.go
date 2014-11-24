@@ -40,7 +40,7 @@ func main() {
 	conf := mgoauth.NewMgoConfigMngr(db)
 	settings := map[string]string{
 		"auth_full_path":              "http://localhost:8080/auth",
-		"auth_activate_page":          "http://localhost:8082/#!/user/%s/active?code=%s",
+		"auth_activate_redirect":      "http://localhost:8082/#!/welcome",
 		"auth_approve_new_user":       "false",
 		"auth_email_from":             "nvcnvn1@gmail.com",
 		"auth_send_activate_email":    "true",
@@ -56,7 +56,7 @@ func main() {
 	}
 
 	mngr := mgoauth.NewMgoManager(db)
-	g, err := mngr.AddGroupDetail("admin", []string{"manage_user"}, nil)
+	g, err := mngr.AddGroupDetail("admin", []string{"manage_user", "manage_setting"}, nil)
 	if err != nil {
 		log.Println(err)
 	}
