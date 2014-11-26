@@ -34,6 +34,7 @@ func main() {
 	session.SetMode(mgo.Monotonic, true)
 
 	auth.DEFAULT_NOTIFICATOR = NewSESNotificator(465, "email-smtp.us-west-2.amazonaws.com", "AKIAJDJGIHPM5IS7C5HQ", "AkCf7PkmnokIuls3/2rl1EOFdhqlQVvajeM77mOHoXOR")
+	auth.DEFAULT_LOGGER, _ = auth.NewSysLogger("kidstuff/auth")
 	mgoauth.Initial(session.DB(DB_NAME))
 
 	r := mux.NewRouter()

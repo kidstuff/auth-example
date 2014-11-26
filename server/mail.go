@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
+	"github.com/kidstuff/auth"
 	"net/smtp"
 	"strconv"
 )
@@ -23,7 +24,7 @@ func NewSESNotificator(port int, server, user, pwd string) *SESNotificator {
 	return s
 }
 
-func (n *SESNotificator) SendMail(subject, message, from, to string) error {
+func (n *SESNotificator) SendMail(ctx *auth.AuthContext, subject, message, from, to string) error {
 	// Setup headers
 	headers := make(map[string]string)
 	headers["From"] = from
@@ -56,37 +57,53 @@ func (n *SESNotificator) SendMail(subject, message, from, to string) error {
 		return err
 	}
 
-	c, err := smtp.NewClient(conn, n.Server)
-	if err != nil {
-		return err
+	send := func() error {
+		c, err := smtp.NewClient(conn, n.Server)
+		if err != nil {
+			return err
+		}
+
+		if err = c.Auth(auth); err != nil {
+			return err
+		}
+
+		if err = c.Mail(from); err != nil {
+			return err
+		}
+
+		if err = c.Rcpt(to); err != nil {
+			return err
+		}
+
+		w, err := c.Data()
+		if err != nil {
+			return err
+		}
+
+		_, err = w.Write([]byte(body))
+		if err != nil {
+			return err
+		}
+
+		err = w.Close()
+		if err != nil {
+			return err
+		}
+
+		return c.Quit()
 	}
 
-	if err = c.Auth(auth); err != nil {
+	c := make(chan error, 1)
+	go func() {
+		c <- send()
+	}()
+
+	select {
+	case <-ctx.Context.Done():
+		conn.Close()
+		<-c // Wait for send to return.
+		return ctx.Err()
+	case err := <-c:
 		return err
 	}
-
-	if err = c.Mail(from); err != nil {
-		return err
-	}
-
-	if err = c.Rcpt(to); err != nil {
-		return err
-	}
-
-	w, err := c.Data()
-	if err != nil {
-		return err
-	}
-
-	_, err = w.Write([]byte(body))
-	if err != nil {
-		return err
-	}
-
-	err = w.Close()
-	if err != nil {
-		return err
-	}
-
-	return c.Quit()
 }
