@@ -19,7 +19,12 @@ function SettingsController($scope, $state, auth, env, growl, keys) {
 
 auth.admin.module.controller('SettingMainController', ['$scope', '$state', 'auth', 'env', 'growl',
 function($scope, $state, auth, env, growl) {
-	var keys = ['auth_full_path', 'auth_activate_redirect', 'auth_approve_new_user'];
+	var keys = [
+		'auth_full_path',
+		'auth_activate_redirect',
+		'auth_approve_new_user',
+		'auth_reset_redirect'
+	];
 	SettingsController($scope, $state, auth, env, growl, keys);
 }]);
 
@@ -33,6 +38,8 @@ function($scope, $state, auth, env, growl) {
 		'auth_send_welcome_email',
 		'auth_welcome_email_subject',
 		'auth_welcome_email_message',
+		'auth_reset_email_subject',
+		'auth_reset_email_message'
 	];
 	SettingsController($scope, $state, auth, env, growl, keys);
 }]);
