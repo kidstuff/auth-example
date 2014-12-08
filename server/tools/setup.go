@@ -1,9 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"github.com/kidstuff/auth-mongo-mngr"
+	"github.com/kidstuff/auth/authtool"
 	"labix.org/v2/mgo"
-	"log"
 	"os"
 )
 
@@ -26,18 +27,21 @@ func main() {
 
 	session, err := mgo.Dial(MONGODB_URL)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		return
 	}
+
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)
 	db := session.DB(DB_NAME)
-
-	err = mgoauth.EnsureIndex(db)
+	// The auth-mongo-mngr require to run Setup function
+	err = mgoauth.Setup(db)
 	if err != nil {
-		log.Println(err)
+		fmt.Println(err)
+		return
 	}
-
-	conf := mgoauth.NewMgoConfigMngr(db)
+	// the system require these settings, read wiki to understand them.
+	su := authtool.NewSetUp(mgoauth.NewMgoConfigMngr(db), mgoauth.NewMgoManager(db))
 	settings := map[string]string{
 		"auth_full_path":              "http://localhost:8080/auth",
 		"auth_activate_redirect":      "http://localhost:8081/#!/welcome",
@@ -53,20 +57,24 @@ func main() {
 		"auth_reset_email_subject":    "Password reset request",
 		"auth_reset_email_message":    "Hi!\nTo reset your password please click the link bellow:\n%s",
 	}
-	err = conf.SetMulti(settings)
+	fmt.Println("Set default seetings...")
+	err = su.SetSettings(settings)
 	if err != nil {
-		log.Println(err)
+		fmt.Println(err)
+		return
 	}
+	fmt.Println("Default settings setted!")
 
-	mngr := mgoauth.NewMgoManager(db)
-	g, err := mngr.AddGroupDetail("admin", []string{"manage_user", "manage_setting"}, nil)
-	if err != nil {
-		log.Println(err)
-	}
+	fmt.Println("Add admin user...")
+	var email, pwd string
+	fmt.Println("Enter admin user Email:")
+	fmt.Scanf("%s", &email)
 
-	_, err = mngr.AddUserDetail("nvcnvn1@gmail.com", "zaq123edc", true, []string{"manage_user"}, nil,
-		nil, []string{*g.Id})
+	fmt.Println("Enter admin user Password:")
+	fmt.Scanf("%s", &pwd)
+
+	_, err = su.AddAdmin(email, pwd)
 	if err != nil {
-		log.Println(err)
+		panic(err)
 	}
 }

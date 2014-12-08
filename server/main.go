@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gorilla/context"
 	"github.com/gorilla/mux"
 	"github.com/kidstuff/auth"
 	"github.com/kidstuff/auth-mongo-mngr"
@@ -32,19 +33,52 @@ func main() {
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)
+	db := session.DB(DB_NAME)
 
+	// NewSESNotificator return an auth.Notificator
 	auth.DEFAULT_NOTIFICATOR = NewSESNotificator(465, "email-smtp.us-west-2.amazonaws.com", "AKIAJDJGIHPM5IS7C5HQ", "AkCf7PkmnokIuls3/2rl1EOFdhqlQVvajeM77mOHoXOR")
+	// And about Logger interface http://godoc.org/github.com/kidstuff/auth#Logger
 	auth.DEFAULT_LOGGER, _ = auth.NewSysLogger("kidstuff/auth")
-	mgoauth.Initial(session.DB(DB_NAME))
+	// Initial is a function from kidstuff/auth-mongo-mngr driver,
+	// assign database will use with the auth system.
+	// Its also tell the main kidstuff/auth package to use it at the "manager",
+	// mostly, after this line, the developer don't need to import the mananger in their code.
+	// The name "Initial" is specific by manager packge, so remember to check it docuemnt.
+	mgoauth.Initial(db)
 
+	// We use gorilla/mux, you don't need to use it with the other part of you app.
+	// But some kidstuff/auth convenient function require a specific structrue of the handle
+	// routed with gorilla/mux. We will talk about it later.
 	r := mux.NewRouter()
+
+	// auth.Serve will panic if the manager doesn't config the package right.
+	// Now we have the auth REST API run at example.com/auth/xxx.
+	// To know what is the xxx part, read http://kidstuff.github.io/swagger/#!/default
 	auth.Serve(r.PathPrefix("/auth").Subrouter())
 
-	http.ListenAndServe(SERVER_URL, &AuthServer{r})
+	// the CreateTicket only run for a "logged" user
+	r.Handle("/users/{user_id}/tickets",
+		auth.HANDLER_REGISTER(CreateTicket, true, nil)).Methods("POST")
+
+	r.Handle("/users/{user_id}/tickets/{ticket_id}",
+		auth.HANDLER_REGISTER(GetTicket, true, []string{"manage_content"})).Methods("GET")
+
+	r.Handle("/users/{user_id}/tickets/{ticket_id}",
+		auth.HANDLER_REGISTER(DeleteTicket, true, []string{"manage_content"})).Methods("DELETE")
+
+	http.ListenAndServe(SERVER_URL, &AuthServer{r, db})
 }
 
+type ctxKey int
+
+const (
+	DBKey ctxKey = iota
+)
+
+// AuthServer or what kind of name you like
 type AuthServer struct {
-	r *mux.Router
+	r  *mux.Router
+	db *mgo.Database
 }
 
 func (s *AuthServer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
@@ -57,6 +91,11 @@ func (s *AuthServer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	if req.Method == "OPTIONS" {
 		return
 	}
+
+	cloneDB := s.db.Session.Clone().DB(s.db.Name)
+	defer cloneDB.Session.Close()
+	context.Set(req, DBKey, cloneDB)
+
 	s.r.ServeHTTP(rw, req)
 }
 
