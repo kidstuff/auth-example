@@ -10,15 +10,10 @@ import (
 
 func main() {
 	MONGODB_URL := os.Getenv("MONGODB_URL")
-	SERVER_URL := os.Getenv("SERVER_URL")
 	DB_NAME := os.Getenv("DB_NAME")
 
 	if len(MONGODB_URL) == 0 {
 		MONGODB_URL = "localhost"
-	}
-
-	if len(SERVER_URL) == 0 {
-		SERVER_URL = ":8080"
 	}
 
 	if len(DB_NAME) == 0 {
