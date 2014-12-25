@@ -6,6 +6,7 @@ CACHE MANIFEST
 //cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js
 //maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css
 //maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css
+//raw.githubusercontent.com/kidstuff/auth-angular-client/master/auth.js
 
 NETWORK:
 *
