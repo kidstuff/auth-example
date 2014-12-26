@@ -66,6 +66,9 @@ func main() {
 	r.Handle("/users/{user_id}/tickets/{ticket_id}",
 		auth.HANDLER_REGISTER(DeleteTicket, true, []string{"manage_content"})).Methods("DELETE")
 
+	r.Handle("/facebook_login",
+		auth.HANDLER_REGISTER(FacebookLogin, false, nil))
+
 	http.ListenAndServe(SERVER_URL, &AuthServer{r, db})
 }
 
