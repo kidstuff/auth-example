@@ -95,7 +95,7 @@ func main() {
 	lock.Unlock()
 
 	log.Println("Serving client at http://localhost" + *port)
-	panic(http.ListenAndServe(*port, http.FileServer(http.Dir(*dir))))
+	panic(http.ListenAndServe(*port, &customFileServer{*dir, "index.html"}))
 }
 
 func compileScript(compiler, jsDir string, debug bool) error {
@@ -161,4 +161,19 @@ func compileScript(compiler, jsDir string, debug bool) error {
 	_, err = io.Copy(f, &out)
 
 	return err
+}
+
+type customFileServer struct {
+	root     string
+	notfound string
+}
+
+func (c *customFileServer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+	fname := filepath.Join(c.root, filepath.Clean(req.URL.Path))
+	if _, err := os.Stat(fname); os.IsNotExist(err) {
+		http.ServeFile(rw, req, c.notfound)
+		return
+	}
+
+	http.ServeFile(rw, req, fname)
 }

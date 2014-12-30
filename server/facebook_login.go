@@ -119,14 +119,10 @@ func sendWelcomeMailtoFBUser(ctx *auth.AuthContext, email, pwd string) error {
 
 func FacebookLogin(ctx *auth.AuthContext, rw http.ResponseWriter, req *http.Request) (int, error) {
 	code := req.FormValue("code")
-	scheme := "http"
-	if len(req.URL.Scheme) != 0 {
-		scheme = req.URL.Scheme
-	}
-	requestURI := scheme + "://" + req.Host + req.URL.Path
+	redirect_uri := req.FormValue("redirect_uri")
 
-	fb := NewFBLogin(os.Getenv("FB_APP_ID"), os.Getenv("FB_APP_SECRET"),
-		requestURI, http.DefaultClient)
+	fb := NewFBLogin(os.Getenv("FB_APP_ID"), os.Getenv("FB_APP_SECRET"), redirect_uri,
+		http.DefaultClient)
 
 	token, err := fb.GetAccessToken(code)
 	if err != nil {
@@ -155,6 +151,7 @@ func FacebookLogin(ctx *auth.AuthContext, rw http.ResponseWriter, req *http.Requ
 			return http.StatusInternalServerError, err
 		}
 
+		// the send mail functiuon have soem feature, we will talk about them next article.
 		err = sendWelcomeMailtoFBUser(ctx, email, pwd)
 		if err != nil {
 			ctx.Logs.Errorf("FB user welcome mail failed: %s", err)
@@ -171,6 +168,8 @@ func FacebookLogin(ctx *auth.AuthContext, rw http.ResponseWriter, req *http.Requ
 		return http.StatusInternalServerError, err
 	}
 
+	// You only need to return the token, but the front-end ma keep some user infomation
+	// for future usage. And this is exactly the same structure our /tokens endpoint use.
 	inf := struct {
 		User        *authmodel.User
 		ExpiredOn   time.Time

@@ -1,0 +1,23 @@
+<tabset>
+	<tab heading="Login with email and password">
+		<form ng-submit="submit()" name="loginForm" accept-charset="UTF-8" role="form">
+			<div class="form-group">
+				<label for="userEmail">Email address</label>
+				<input type="email" class="form-control" id="userEmail" autocomplete="off"
+				placeholder="Email" ng-model="user.Email">
+			</div>
+			<div class="form-group">
+				<label for="userPassword">Password</label>
+				<input type="password" class="form-control" id="userPassword" autocomplete="off"
+				placeholder="Password" ng-model="user.Pwd">
+			</div>
+			<button type="submit" class="btn btn-default" ng-disabled="loginForm.$invalid">Submit</button>
+		</form>
+	</tab>
+	<tab heading="Login with social account">
+		<a class="btn btn-primary" href="//www.facebook.com/dialog/oauth?client_id={{fbLogin.clientID}}&redirect_uri={{fbLogin.redirectURI}}&response_type=code&scope=email" target="_blank">
+			<i class="fa fa-facebook fa-lg"></i>
+			Login with Facebook
+		</a>
+	</tab>
+</tabset>
